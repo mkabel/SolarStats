@@ -133,22 +133,13 @@ void epdSleep()
 
 int getOrder(int value)
 {
-  int order = -1;
-  if ( abs(value) < 10 )
-    order = 1;
-  else if ( abs(value) < 100 )
-    order = 2;
-  else if ( abs(value) < 1000 )
-    order = 3;
-  else if ( abs(value) < 10000 )
-    order = 4;
-
-  return order;
+  // returns 'size' of value, i.e. the order of magnitude
+  return floor(log10(value));
 }
 
 int getDeltaSize(int delta)
 {
-  int order = getOrder(delta);
+  int order = getOrder(abs(delta));
   int sign = 0;
   if ( delta < 0 )
     sign = 1;

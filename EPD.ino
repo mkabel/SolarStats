@@ -131,10 +131,10 @@ void epdSleep()
 ///////////////////////////////////////////////////////
 // Helpers
 
-int getOrder(int value)
+int getOrder(float value)
 {
   // returns 'size' of value, i.e. the order of magnitude
-  return floor(log10(value));
+  return floor(log10(value+0.5));
 }
 
 int getDeltaSize(int delta)

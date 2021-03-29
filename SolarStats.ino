@@ -7,13 +7,13 @@
 */
 
 #include "defines.h"
-#include "WiFiConnect.h"
+#include <WiFiConnect.h>
 #include <TimeLib.h>
+#include <Timezone.h>
 
 #include <WiFiClient.h>                      
 #include <HTTPClient.h>
 #include <WiFiClientSecure.h>
-#include <ArduinoJson.h>
 
 WiFiConnect wc;
 HTTPClient http;
@@ -143,7 +143,7 @@ void setup()
   {
     Serial.println("Connected to server!");
 
-    time_t today = now + 3600;
+    time_t today = toLocalTime(now);
     time_t yesterday = today - secondsInDay;
     time_t last_month = OneMonthAgo(today);
     time_t last_year = OneYearAgo(today);
@@ -235,6 +235,15 @@ int Delta(SOLAR& current, SOLAR& previous)
     percentage = int(100*(current.efficiency/previous.efficiency - 1));
   
   return percentage;
+}
+
+time_t toLocalTime(time_t utc)
+{
+  //EDT = End Daylight Saving Time (i.e. Summertime), EST = End Standard Time (i.e. Wintertime)
+  TimeChangeRule localEDT = {"EDT", Last, Sun, Mar, 2, +120};   //UTC +2 hours
+  TimeChangeRule localEST = {"EST", First, Sun, Nov, 3, +60};   //UTC +1 hours
+  Timezone localTimeZone(localEDT, localEST);
+  return localTimeZone.toLocal(utc);  
 }
 
 /////////////////////////////////////////////////////////////////

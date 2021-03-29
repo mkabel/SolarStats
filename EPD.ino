@@ -65,13 +65,13 @@ void epdDrawValues( int box, float current, float previous, int delta)
   int accuracy = 0;
   
   if ( box == 1 ) {
-    x = 40;
+    x = 30;
     if ( getOrder(current) < 3 )
       accuracy = 1;
   } else if ( box == 2 ) {
-    x = 125;
+    x = 115;
   } else if ( box = 3 ) {
-    x = 210;
+    x = 200;
   }
   
   EPD.setTextColor(EPD_BLACK);
@@ -83,11 +83,11 @@ void epdDrawValues( int box, float current, float previous, int delta)
 
   fontSize = 1;
   EPD.setTextSize(fontSize);
-  EPD.setCursor(x - 39, y - 16);
+  EPD.setCursor(x - 29, y - 16);
   EPD.println(previous, accuracy);
   
   EPD.setTextSize(fontSize);
-  EPD.setCursor(x + 39 - (fontSize*6*getDeltaSize(delta)-fontSize) , y - 16);
+  EPD.setCursor(x + 41 - (fontSize*6*getDeltaSize(delta)-fontSize) , y - 16);
   EPD.print(delta);
   EPD.println("%");
 }

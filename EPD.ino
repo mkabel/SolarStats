@@ -25,8 +25,8 @@ void epdDrawLines()
 {
   EPD.drawFastHLine(  1,  25, 250, EPD_BLACK);
   EPD.drawFastHLine(  1,  26, 250, EPD_BLACK);
-  EPD.drawFastVLine( 82,  27,  80, EPD_BLACK);
   EPD.drawFastVLine( 83,  27,  80, EPD_BLACK);
+  EPD.drawFastVLine( 84,  27,  80, EPD_BLACK);
   EPD.drawFastVLine(167,  27,  80, EPD_BLACK);
   EPD.drawFastVLine(168,  27,  80, EPD_BLACK);
   EPD.drawFastHLine(  1, 107, 250, EPD_BLACK);
@@ -65,29 +65,29 @@ void epdDrawValues( int box, float current, float previous, int delta)
   int accuracy = 0;
   
   if ( box == 1 ) {
-    x = 30;
+    x = 1;
     if ( getOrder(current) < 3 )
       accuracy = 1;
   } else if ( box == 2 ) {
-    x = 115;
+    x = 85;
   } else if ( box = 3 ) {
-    x = 200;
+    x = 169;
   }
   
   EPD.setTextColor(EPD_BLACK);
 
   int fontSize = 3;
   EPD.setTextSize(fontSize);
-  EPD.setCursor(x - (6*fontSize*(getOrder(current)+2*accuracy)-fontSize)/2, y);
+  EPD.setCursor(x+41 - (6*fontSize*(getOrder(current)+2*accuracy)-fontSize)/2, y);
   EPD.println(current, accuracy);
 
   fontSize = 1;
   EPD.setTextSize(fontSize);
-  EPD.setCursor(x - 29, y - 16);
+  EPD.setCursor(x+2, y - 16);
   EPD.println(previous, accuracy);
   
   EPD.setTextSize(fontSize);
-  EPD.setCursor(x + 41 - (fontSize*6*getDeltaSize(delta)-fontSize) , y - 16);
+  EPD.setCursor(x+79 - (fontSize*6*getDeltaSize(delta)-fontSize) , y - 16);
   EPD.print(delta);
   EPD.println("%");
 }
@@ -134,15 +134,13 @@ void epdSleep()
 int getOrder(float value)
 {
   // returns 'size' of value, i.e. the order of magnitude
-  return floor(log10(value+0.5));
+  return (value < 1) ? 1 : floor(log10(value+0.5)+1);
 }
 
 int getDeltaSize(int delta)
 {
   int order = getOrder(abs(delta));
-  int sign = 0;
-  if ( delta < 0 )
-    sign = 1;
+  int sign = (delta < 0) ? 1 : 0;
 
   // optional negative sign + delta size is the order of the delta + %
   return sign + order + 1;

@@ -163,7 +163,6 @@ void setup()
     httpCode = MonthAggregate(last_month, payload);
     SOLAR lastMonth = ParseAggregate(payload);
 
-
     httpCode = YearAggregate(today, payload);
     SOLAR thisYear = ParseAggregate(payload);
 

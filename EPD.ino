@@ -83,20 +83,22 @@ void epdDrawValues( int box, float current, float previous, int delta, float con
 
   fontSize = 1;
   EPD.setTextSize(fontSize);
-  EPD.setCursor(x+2, y - 16);
+  EPD.setCursor(x+2, 31);
+  //EPD.setCursor(x+2, y -(8+20));
   EPD.println(previous, accuracy);
   
   EPD.setTextSize(fontSize);
-  EPD.setCursor(x+79 - (fontSize*6*getDeltaSize(delta)-fontSize) , y - 16);
+  EPD.setCursor(x+79 - (fontSize*6*getDeltaSize(delta)-fontSize) , 31);
+  //EPD.setCursor(x+79 - (fontSize*6*getDeltaSize(delta)-fontSize) , y-(8+20));
   EPD.print(delta);
   EPD.println("%");
 
   if ( consumption > 0 ) {
-    EPD.setCursor(x+2, y+35);
+    EPD.setCursor(x+2, y+(3*8+12));
     EPD.println(consumption, accuracy);
 
     float delta = current - consumption;
-    EPD.setCursor(x+79 - (fontSize*6*(getSize(delta)+2*accuracy)-fontSize), y+35);
+    EPD.setCursor(x+79 - (fontSize*6*(getSize(delta)+2*accuracy)-fontSize), y+(3*8+12));
     EPD.println(delta, accuracy);
   }
 }

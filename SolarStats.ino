@@ -171,9 +171,9 @@ void setup()
 
     epdDrawLines();
     epdSetDate(String(day(today)) + " " + monthStr(month(today)) + " " + String(year(today)));
-    epdDayStatistics(statusToday.generated/1000.0, statusYesterday.generated/1000.0, percentage);
-    epdMonthStatistics(thisMonth.generated/1000.0, lastMonth.generated/1000.0, 100*(thisMonth.efficiency/lastMonth.efficiency - 1));
-    epdYearStatistics(thisYear.generated/1000.0, lastYear.generated/1000.0, 100*(thisYear.efficiency/lastYear.efficiency - 1));
+    epdDayStatistics(statusToday.generated/1000.0, statusYesterday.generated/1000.0, percentage, statusToday.consumed/1000.0);
+    epdMonthStatistics(thisMonth.generated/1000.0, lastMonth.generated/1000.0, 100*(thisMonth.efficiency/lastMonth.efficiency - 1), thisMonth.consumed/1000.0);
+    epdYearStatistics(thisYear.generated/1000.0, lastYear.generated/1000.0, 100*(thisYear.efficiency/lastYear.efficiency - 1), thisYear.consumed/1000.0);
     epdGenerating(statusToday.generating);
     epdPrintUpdateTime(getTimeString(today));
 

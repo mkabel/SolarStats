@@ -43,25 +43,25 @@ void epdSetDate(String dateString)
 
 }
 
-void epdDayStatistics(float current, float previous, int delta)
+void epdDayStatistics(float current, float previous, int delta, float consumed)
 {
-  epdDrawValues(1, current, previous, delta);
+  epdDrawValues(1, current, previous, delta, consumed);
 }
 
-void epdMonthStatistics(float current, float previous, int delta)
+void epdMonthStatistics(float current, float previous, int delta, float consumed)
 {
-  epdDrawValues(2, current, previous, delta);
+  epdDrawValues(2, current, previous, delta, consumed);
 }
 
-void epdYearStatistics(float current, float previous, int delta)
+void epdYearStatistics(float current, float previous, int delta, float consumed)
 {
-  epdDrawValues(3, current, previous, delta);
+  epdDrawValues(3, current, previous, delta, consumed);
 }
 
-void epdDrawValues( int box, float current, float previous, int delta)
+void epdDrawValues( int box, float current, float previous, int delta, float consumption)
 {
   int x = 0;
-  int y = 62;
+  int y = 60;
   int accuracy = 0;
   
   if ( box == 1 ) {
@@ -90,6 +90,15 @@ void epdDrawValues( int box, float current, float previous, int delta)
   EPD.setCursor(x+79 - (fontSize*6*getDeltaSize(delta)-fontSize) , y - 16);
   EPD.print(delta);
   EPD.println("%");
+
+  if ( consumption > 0 ) {
+    EPD.setCursor(x+2, y+35);
+    EPD.println(consumption, accuracy);
+
+    float delta = current - consumption;
+    EPD.setCursor(x+79 - (fontSize*6*(getSize(delta)+2*accuracy)-fontSize), y+35);
+    EPD.println(delta, accuracy);
+  }
 }
 
 void epdGenerating(bool generating)
@@ -137,11 +146,13 @@ int getOrder(float value)
   return (value < 1) ? 1 : floor(log10(value+0.5)+1);
 }
 
+int getSize(float value)
+{
+  int sign = value < 0 ? 1 : 0;
+  return getOrder(abs(value)) + sign;
+}
+
 int getDeltaSize(int delta)
 {
-  int order = getOrder(abs(delta));
-  int sign = (delta < 0) ? 1 : 0;
-
-  // optional negative sign + delta size is the order of the delta + %
-  return sign + order + 1;
+  return getSize(delta) + 1;
 }
